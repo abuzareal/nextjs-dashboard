@@ -36,9 +36,9 @@ export async function createInvoice(formData: FormData) {
   `;
   } catch (error) {
     console.error(error);
-    return {
-      message: "Database Error: Failed to Create Invoice.",
-    };
+    // Failed to create — log and redirect back to the invoices list.
+    // Do not return an object so the action has a `Promise<void>` signature.
+    redirect("/dashboard/invoices");
   }
 
   revalidatePath("/dashboard/invoices");
@@ -63,7 +63,8 @@ export async function updateInvoice(id: string, formData: FormData) {
   } catch (error) {
     // We'll also log the error to the console for now
     console.error(error);
-    return { message: "Database Error: Failed to Update Invoice." };
+    // Do not return an object — keep the signature as `Promise<void>`.
+    redirect("/dashboard/invoices");
   }
 
   revalidatePath("/dashboard/invoices");
